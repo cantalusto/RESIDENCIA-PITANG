@@ -1,13 +1,20 @@
-import React from 'react';
-import './App.css';
-import Home from './pages/Home';
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/login/login.js";
+import DashAluno from "./pages/DashAluno/AlunoPage.js";
+import DashProf from "./pages/DashProf/ProfessorPage.js";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/aluno" element={<DashAluno />} />
+        <Route path="/professor" element={<DashProf />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
