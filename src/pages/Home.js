@@ -11,13 +11,6 @@ const Home = () => {
       {/* Main content */}
       <main className="content">
         <header>
-          <nav>
-            <ul className="top-menu">
-              <li><a href="#">Mural</a></li>
-              <li><a href="#">Atividades</a></li>
-              <li><a href="#">Notas</a></li>
-            </ul>
-          </nav>
         </header>
 
         {/* Atividades */}
