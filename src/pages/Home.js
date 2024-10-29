@@ -10,8 +10,7 @@ const Home = () => {
 
       {/* Main content */}
       <main className="content">
-        <header>
-        </header>
+
 
         {/* Atividades */}
         <section className="atividades">

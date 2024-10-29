@@ -52,14 +52,6 @@
     flex-direction: column;
 }
 
-header {
-    background-color: #a6a6a6;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .top-menu {
     list-style: none;
     display: flex;
