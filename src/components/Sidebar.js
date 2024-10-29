@@ -1,4 +1,8 @@
+// src/components/Sidebar.js
+
 import React from 'react';
+import { Link } from 'react-router-dom';
+import './Sidebar.css';
 
 const Sidebar = () => {
   return (
@@ -8,9 +12,9 @@ const Sidebar = () => {
       </div>
       <nav className="menu">
         <ul>
-          <li><a href="#">Turmas</a></li>
-          <li><a href="#">Atividades</a></li>
-          <li><a href="#">Notas</a></li>
+          <li><Link to="/turmas">Turmas</Link></li>
+          <li><Link to="/">Atividades</Link></li> {/* Redireciona para a Home */}
+          <li><Link to="/notas">Notas</Link></li>
         </ul>
       </nav>
     </aside>
