@@ -10,7 +10,6 @@ const Sidebar = () => {
         <ul>
           <li><a href="#">Turmas</a></li>
           <li><a href="#">Atividades</a></li>
-          <li><a href="#">Configurações</a></li>
         </ul>
       </nav>
     </aside>

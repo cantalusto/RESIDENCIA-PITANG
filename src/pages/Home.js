@@ -17,9 +17,6 @@ const Home = () => {
               <li><a href="#">Atividades</a></li>
               <li><a href="#">Notas</a></li>
             </ul>
-            <div className="config-icon">
-              <img src="config-icon.png" alt="Configurações" />
-            </div>
           </nav>
         </header>
 
