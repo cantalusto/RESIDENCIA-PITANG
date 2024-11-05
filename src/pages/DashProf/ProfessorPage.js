@@ -1,11 +1,47 @@
 import React from "react";
+import './ProfessorPage.css';
+import { useNavigate } from 'react-router-dom';
+import Sidebar from "../../components/Sidebar/Sidebarprof.js";
 
-const ProfessorPage = () => {
+const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const handleCadastrarClick = () => {
+    navigate('/cadastro');
+  };
+
+  const handleCorrigirClick = () => {
+    console.log('Corrigir Atividades clicado');
+  };
+
   return (
-    <div>
-      <h1>Bem-vindo à página de Professor!</h1>
+    <div className="container">
+      <Sidebar />
+      <div className="dashboard">
+        <header>
+          <h1>Bem vindo Professor</h1>
+        </header>
+        <h3>Escolha uma Ação</h3>
+        <div className="buttons-container">
+          {/* Botão Cadastrar Atividades */}
+          <button 
+            className="action-button" 
+            onClick={handleCadastrarClick}
+          >
+            Cadastrar Atividades
+          </button>
+
+          {/* Botão Corrigir Atividades */}
+          <button 
+            className="action-button" 
+            onClick={handleCorrigirClick}
+          >
+            Corrigir Atividades
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ProfessorPage;
+export default Dashboard;

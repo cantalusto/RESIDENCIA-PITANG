@@ -21,7 +21,7 @@ const Home = () => {
 
       <main className="content">
         <header>
-          <h1>Atividades do Aluno</h1>
+          <h1>Bem vindo Aluno</h1>
         </header>
 
         <section className="activities-section">
