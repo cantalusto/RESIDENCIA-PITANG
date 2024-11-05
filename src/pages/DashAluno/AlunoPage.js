@@ -1,47 +1,44 @@
 import React from "react";
 import "./AlunoPage.css";
+import { useNavigate } from 'react-router-dom';
 import Sidebar from "../../components/Sidebar/Sidebar.js";
 
-const DashAluno = () => {
+const Home = () => {
+  const navigate = useNavigate();
+
+  const atividades = [
+    { id: 1, titulo: "Resistores e Associação de Resistores", descricao: "Estude os conceitos de resistência elétrica.", dataEntrega: "30 de Out. de 2024" },
+    // Adicione mais atividades conforme necessário
+  ];
+
+  const handleAtividadeClick = (atividade) => {
+    navigate('/responder-atividade', { state: { atividade } });
+  };
+
   return (
-    <div className="container-alunop">
-      {/* Sidebar */}
+    <div className="container">
       <Sidebar />
 
-      {/* Main content */}
-      <main className="content-alunop">
-        <header></header>
+      <main className="content">
+        <header>
+          <h1>Atividades do Aluno</h1>
+        </header>
 
-        {/* Atividades */}
-        <section className="atividades">
-          <div className="atividades-pendentes">
-            <h2>Atividades Pendentes</h2>
-            <div className="atividade-item">
-              <span className="icon">&#x1F4DD;</span>
-              <div className="detalhes">
-                <h3>Resistores e associação de resistores</h3>
-                <p>Data de entrega: 25 de Set. de 2024, 10:00</p>
-              </div>
-              <span className="seta">&#x27A4;</span>
+        <section className="activities-section">
+          {atividades.map((atividade) => (
+            <div
+              key={atividade.id}
+              className="activity-card"
+              onClick={() => handleAtividadeClick(atividade)}
+            >
+              <h3>{atividade.titulo}</h3>
+              <p>Data de entrega: {atividade.dataEntrega}</p>
             </div>
-            {/* Adicionar mais itens conforme necessário */}
-          </div>
-
-          <div className="atividades-respondidas">
-            <h2>Atividades Respondidas</h2>
-            <div className="atividade-item">
-              <span className="icon">&#x1F7E2;</span>
-              <div className="detalhes">
-                <h3>Nome da Atividade</h3>
-              </div>
-              <span className="seta">&#x27A4;</span>
-            </div>
-            {/* Adicionar mais itens conforme necessário */}
-          </div>
+          ))}
         </section>
       </main>
     </div>
   );
 };
 
-export default DashAluno;
+export default Home;
