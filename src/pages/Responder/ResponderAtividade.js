@@ -33,6 +33,9 @@ const ResponderAtividade = ({ atividade }) => {
         </section>
 
         <section className="responder-secao">
+            <h6>
+                Titulo da pergunta
+            </h6>
           <textarea
             value={resposta}
             onChange={handleRespostaChange}
