@@ -1,16 +1,16 @@
-import React from 'react';
-import './Home.css';
-import Sidebar from '../components/Sidebar';
+import React from "react";
+import "./AlunoPage.css";
+import Sidebar from "../../components/Sidebar/Sidebar.js";
 
-const Home = () => {
+const DashAluno = () => {
   return (
-    <div className="container">
+    <div className="container-alunop">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main content */}
-      <main className="content">
-
+      <main className="content-alunop">
+        <header></header>
 
         {/* Atividades */}
         <section className="atividades">
@@ -44,4 +44,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default DashAluno;

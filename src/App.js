@@ -1,22 +1,22 @@
-// src/App.js
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/login/login.js";
+import DashAluno from "./pages/DashAluno/AlunoPage.js";
+import DashProf from "./pages/DashProf/ProfessorPage.js";
+import Grades from "./pages/Grades/Grades.js";
 
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Home from './pages/Home';
-import Grades from './pages/Grades';
-
-function App() {
+const App = () => {
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/notas" element={<Grades />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/aluno" element={<DashAluno />} />
+        <Route path="/professor" element={<DashProf />} />
+        <Route path="/grades" element={<Grades />} />
+      </Routes>
     </Router>
   );
-}
+};
 
 export default App;
