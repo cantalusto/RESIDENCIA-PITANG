@@ -1,7 +1,5 @@
 /* src/components/CadastroAtividades.css */
 
-
-
 h2 {
     text-align: center;
     color: white;
@@ -56,6 +54,16 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
+    background-color: #e06f1b;
+}
+
+/* Estilo para o botão de voltar */
+button.voltar {
+    background-color: #f58220; /* cor de fundo do botão de voltar */
+    margin-bottom: 20px;
+}
+
+button.voltar:hover {
     background-color: #e06f1b;
 }
 
