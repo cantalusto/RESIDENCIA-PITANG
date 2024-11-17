@@ -3,59 +3,48 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CadastroAtividades.css';
 import Sidebar from "../../components/Sidebar/Sidebarprof.js";
+import atividadesService from "../../services/atividades";
 
 function CadastroAtividades() {
     const navigate = useNavigate();
-    const [titulo, setTitulo] = useState(''); // Armazena o título da atividade
-    const [questoes, setQuestoes] = useState(['']); // Armazena as questões, começa com uma questão vazia
+    const [titulo, setTitulo] = useState('');
+    const [questoes, setQuestoes] = useState(['']);
 
-    // Função para voltar à página anterior
     const handleBack = () => {
         navigate(-1);
     };
 
-    // Função para adicionar uma nova questão
     const adicionarQuestao = () => {
-        setQuestoes([...questoes, '']); // Adiciona uma nova questão vazia ao array
+        setQuestoes([...questoes, '']);
     };
 
-    // Função para remover uma questão específica
     const removerQuestao = (index) => {
-        const novasQuestoes = questoes.filter((_, i) => i !== index); // Remove a questão pelo índice
+        const novasQuestoes = questoes.filter((_, i) => i !== index);
         setQuestoes(novasQuestoes);
     };
 
-    // Função para atualizar o texto de uma questão específica
     const atualizarQuestao = (index, texto) => {
         const novasQuestoes = [...questoes];
-        novasQuestoes[index] = texto; // Atualiza o texto da questão no índice específico
+        novasQuestoes[index] = texto;
         setQuestoes(novasQuestoes);
     };
 
-    // Função para enviar os dados para a API
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Evita o recarregamento da página
-
-        // Converte as questões para o formato esperado pela API
-        const questoesFormatadas = questoes.map((questao) => ({ pergunta: questao }));
-
-        const atividade = { titulo, questoes: questoesFormatadas }; // Cria o objeto com o título e as questões formatadas
+        e.preventDefault();
 
         try {
-            const response = await fetch('https://ferasapi.serveo.net/atividades', { // Substitua pela URL da sua API
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(atividade),
-            });
-            if (response.ok) {
-                alert('Atividade cadastrada com sucesso!');
-                setTitulo(''); // Limpa o título após enviar
-                setQuestoes(['']); // Limpa as questões após enviar
-            } else {
-                alert('Erro ao cadastrar atividade');
-            }
+            const atividade = {
+                titulo,
+                questoes: questoes.map((pergunta) => ({ pergunta }))
+            };
+            await atividadesService.cadastrarAtividade(atividade);
+
+            alert('Atividade cadastrada com sucesso!');
+            setTitulo('');
+            setQuestoes(['']);
         } catch (error) {
-            console.error('Erro:', error);
+            console.error("Erro ao cadastrar atividade:", error.response?.data || error.message);
+            alert("Erro ao cadastrar atividade. Verifique se está logado e tente novamente.");
         }
     };
 
@@ -63,7 +52,7 @@ function CadastroAtividades() {
         <div className="container">
             <Sidebar />
             <div className="content">
-            <button onClick={handleBack} className="voltar">Voltar</button>
+                <button onClick={handleBack} className="voltar">Voltar</button>
                 <h2>Cadastrar Atividade</h2>
                 <form onSubmit={handleSubmit}>
                     <label>Título da Atividade:</label>

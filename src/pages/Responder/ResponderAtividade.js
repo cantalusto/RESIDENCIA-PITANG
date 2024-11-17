@@ -1,46 +1,74 @@
-// src/pages/ResponderAtividade.js
-
 import React, { useState } from 'react';
-import Sidebar from "../../components/Sidebar/Sidebar.js";
+import { useNavigate, useLocation } from 'react-router-dom';
 import './ResponderAtividade.css';
 
-const ResponderAtividade = ({ atividade }) => {
-  const [resposta, setResposta] = useState('');
-
-  const handleRespostaChange = (e) => {
-    setResposta(e.target.value);
+const ResponderAtividade = () => {
+  const navigate = useNavigate();
+  const { state: { atividade } } = useLocation();
+  const [respostas, setRespostas] = useState([]);
+  
+  // Função para atualizar as respostas
+  const handleRespostaChange = (perguntaId, resposta) => {
+    setRespostas(prevRespostas => 
+      prevRespostas.map(r =>
+        r.perguntaId === perguntaId ? { ...r, resposta } : r
+      )
+    );
   };
 
-  const handleEnviarResposta = () => {
-    // Aqui você poderia integrar uma lógica de envio para a API
-    console.log("Resposta enviada:", resposta);
-    alert("Resposta enviada com sucesso!");
+  const handleEnviarResposta = async () => {
+    const respostasFormatadas = respostas.map(r => ({
+      perguntaId: r.perguntaId,
+      resposta: r.resposta,
+    }));
+
+    try {
+      const response = await fetch(`https://ferasapi.serveo.net/atividades/${atividade.id}/devolver`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ respostas: respostasFormatadas }),
+      });
+
+      if (response.ok) {
+        alert("Resposta enviada com sucesso!");
+        navigate('/aluno'); // Redireciona para a página do aluno
+      } else {
+        alert("Erro ao enviar resposta.");
+      }
+    } catch (error) {
+      console.error("Erro ao enviar resposta:", error);
+      alert("Erro ao conectar com a API.");
+    }
+  };
+
+  const handleVoltar = () => {
+    navigate('/aluno'); // Redireciona para a Home
   };
 
   return (
     <div className="container">
-      <Sidebar />
-
       <main className="content">
         <header>
           <h1>Responder Atividade</h1>
+          <button onClick={handleVoltar} className="btn-voltar">
+            Voltar
+          </button>
         </header>
 
         <section className="atividade-detalhes">
           <h2>{atividade?.titulo || "Título da Atividade"}</h2>
-          <p>{atividade?.descricao || "Descrição da atividade vai aqui."}</p>
-          <p><strong>Data de Entrega:</strong> {atividade?.dataEntrega || "Data não especificada"}</p>
         </section>
 
         <section className="responder-secao">
-            <h6>
-                Titulo da pergunta
-            </h6>
-          <textarea
-            value={resposta}
-            onChange={handleRespostaChange}
-            placeholder="Digite sua resposta aqui..."
-          />
+          {atividade?.questoes.map((questao, index) => (
+            <div key={index}>
+              <h6>{questao.pergunta}</h6>
+              <textarea
+                onChange={(e) => handleRespostaChange(questao.perguntaId, e.target.value)}
+                placeholder="Digite sua resposta aqui..."
+              />
+            </div>
+          ))}
           <button onClick={handleEnviarResposta} className="btn-enviar">
             Enviar Resposta
           </button>

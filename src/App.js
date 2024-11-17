@@ -16,7 +16,6 @@ const App = () => {
         <Route path="/aluno" element={<DashAluno />} />
         <Route path="/professor" element={<DashProf />} />
         <Route path="/responder-atividade" element={<ResponderAtividade />} />
-        <Route path="/grades" element={<Grades />} />
         <Route path="/cadastro" element={<CadastroAtividades />} />
       </Routes>
     </Router>

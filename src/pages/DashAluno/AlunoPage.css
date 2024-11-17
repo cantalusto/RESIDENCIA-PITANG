@@ -1,126 +1,29 @@
+/* AlunoPage.css */
 
-.container-alunop {
-  display: flex;
-  height: 100vh;
+.activities-section {
+  margin-top: 20px;
 }
 
-/* Sidebar */
-.sidebar {
-  background-color: #f58220;
-  width: 200px;
-  padding: 20px;
-}
-
-.sidebar .logo-sb {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.sidebar .menu ul {
-  list-style: none;
-}
-
-.sidebar .menu ul li {
-  margin: 20px 0;
-}
-
-.sidebar .menu ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-}
-
-.sidebar .menu ul li a:hover {
-  opacity: 0.8;
-}
-
-/* Main content */
-.content-alunop {
-  flex: 1;
-  background-color: #e0e0e0;
-  display: flex;
-  flex-direction: column;
-}
-
-header {
-  background-color: #a6a6a6;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.top-menu {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.top-menu li a {
-  text-decoration: none;
-  color: black;
-  font-size: 16px;
-}
-
-.top-menu li a:hover {
-  text-decoration: underline;
-}
-
-.config-icon img {
-  width: 25px;
-  height: 25px;
-}
-
-/* Atividades */
-.atividades {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
-}
-
-.atividades-pendentes,
-.atividades-respondidas {
-  background-color: white;
-  padding: 20px;
-  width: 45%;
-  border-radius: 10px;
-}
-
-h2 {
-  text-align: center;
-  background-color: #f58220;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-.atividade-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f4f4f4;
+.activity-card {
   padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 10px;
+  margin: 10px 0;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.atividade-item .icon {
-  font-size: 24px;
+.activity-card:hover {
+  background-color: #e0e0e0;
 }
 
-.atividade-item .detalhes h3 {
-  font-size: 16px;
+.activity-card.responded {
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.atividade-item .detalhes p {
-  text-align: center;
-  font-size: 12px;
-  color: #999;
-}
-
-.atividade-item .seta {
-  font-size: 24px;
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  padding: 10px;
 }
