@@ -1,0 +1,110 @@
+
+/* Conteúdo principal */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+/* Botão de voltar */
+.voltar {
+    align-self: flex-start;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Título */
+h2 {
+    background-color: #ff5722;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+/* Formulário */
+form {
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* Labels e inputs */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Botões */
+button {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #e64a19;
+}
+
+/* Estilo para cada questão */
+.questao-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.questao-container input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.questao-container button {
+    background-color: #9e9e9e;
+    color: white;
+}
+
+.questao-container button:hover {
+    background-color: #757575;
+}
+
+/* Botão de adicionar */
+.adicionar {
+    background-color: #757575;
+    color: white;
+}
+
+.adicionar:hover {
+    background-color: #616161;
+}

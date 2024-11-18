@@ -1,8 +1,6 @@
-// src/components/CadastroAtividades.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CadastroAtividades.css';
-import Sidebar from "../../components/Sidebar/Sidebarprof.js";
 import atividadesService from "../../services/atividades";
 
 function CadastroAtividades() {
@@ -50,7 +48,6 @@ function CadastroAtividades() {
 
     return (
         <div className="container">
-            <Sidebar />
             <div className="content">
                 <button onClick={handleBack} className="voltar">Voltar</button>
                 <h2>Cadastrar Atividade</h2>
