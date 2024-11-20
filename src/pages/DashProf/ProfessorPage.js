@@ -1,7 +1,6 @@
 import React from "react";
 import './ProfessorPage.css';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from "../../components/Sidebar/Sidebarprof.js";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -11,12 +10,12 @@ const Dashboard = () => {
   };
 
   const handleCorrigirClick = () => {
-    console.log('Corrigir Atividades clicado');
+    navigate('/correcao');
   };
 
   return (
     <div className="container">
-      <Sidebar />
+
       <div className="dashboard">
         <header>
           <h1>Bem vindo Professor</h1>

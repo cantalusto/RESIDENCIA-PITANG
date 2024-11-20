@@ -1,3 +1,4 @@
+// src/components/Login/Login.js
 import React, { useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +14,17 @@ function Login() {
     e.preventDefault();
 
     try {
+      // Chama o serviço de login
       const data = await authService.login(email, password);
-      const { token, type } = data; // Pega o token e o tipo de usuário
 
-      localStorage.setItem("authToken", token);
+      // Log para visualizar os dados retornados após o login
+      console.log("Dados retornados após login:", data);
+
+      const { access_token, type } = data; // Pega o token e o tipo de usuário
+
+      // Verificar se o token foi armazenado corretamente
+      const storedToken = authService.getToken(); // Usando a função getToken
+      console.log("Token armazenado no localStorage após login:", storedToken);
 
       if (type === "TEACHER") {
         navigate("/professor");
@@ -27,18 +35,24 @@ function Login() {
       }
     } catch (err) {
       setError("E-mail ou Senha Inválidos.");
-      console.error(err);
+      console.error(err); // Logar o erro
     }
   };
 
   return (
     <div className="body-login">
       <div className="container-login">
-        <img id="img-login" src="./image.png" alt="Logo Página de Login" />
         <h1>Login</h1>
         <form className="formRegist" onSubmit={handleLogin}>
           <div>
-            <input id="email" type="email" placeholder="Digite seu E-mail" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input
+              id="email"
+              type="email"
+              placeholder="Digite seu E-mail"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
           <div>
@@ -59,4 +73,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;
