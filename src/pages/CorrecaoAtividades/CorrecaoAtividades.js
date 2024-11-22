@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "./CorrecaoAtividades.css";
+import { AiOutlineCheckCircle } from "react-icons/ai"; // Ícone de check
 import atividadesService from "../../services/atividades";
 import { useNavigate } from "react-router-dom";
 
 const CorrecaoAtividades = () => {
-  const [atividades, setAtividades] = useState([]); // Estado para armazenar as atividades devolvidas
-  const navigate = useNavigate(); // Navegação para detalhes ou ações adicionais
+  const [atividadesDevolvidas, setAtividadesDevolvidas] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAtividadesDevolvidas = async () => {
       try {
-        const data = await atividadesService.getAtividadesDevolvidas(); // Chama o serviço para buscar as atividades devolvidas
-        console.log("Atividades devolvidas carregadas:", data);
-        setAtividades(data); // Atualiza o estado com as atividades devolvidas
+        const data = await atividadesService.getAtividadesDevolvidas();
+        setAtividadesDevolvidas(data);
       } catch (error) {
         console.error("Erro ao carregar atividades devolvidas:", error);
       }
     };
 
-    fetchAtividadesDevolvidas(); // Executa a função ao montar o componente
+    fetchAtividadesDevolvidas();
   }, []);
 
+  const handleVoltar = () => {
+    navigate("/professor"); // Redireciona para a página do professor
+  };
+
   const handleAtividadeClick = (atividade) => {
-    // Exemplo de navegação ou ação ao clicar em uma atividade
-    navigate("/atribuir-nota", { state: { atividade } }); // Envia os dados da atividade para a página de atribuir nota
+    navigate("/dar-nota", { state: { atividade } }); // Passa os dados para a página DarNota.js
   };
 
   return (
@@ -35,25 +38,36 @@ const CorrecaoAtividades = () => {
 
         <section className="activities-section">
           <h2>Atividades Devolvidas</h2>
-          {atividades.length > 0 ? (
-            atividades.map((atividade, index) => (
+          {atividadesDevolvidas.length > 0 ? (
+            atividadesDevolvidas.map((atividade, index) => (
               <div
                 key={index}
                 className="activity-card"
                 onClick={() => handleAtividadeClick(atividade)}
               >
-                <h3>{atividade.titulo || "Sem título"}</h3>
-                {atividade.questoes && atividade.questoes.pergunta ? (
-                  <p>{atividade.questoes.pergunta}</p>
-                ) : (
-                  <p>Sem pergunta disponível</p>
-                )}
+                <h3>
+                  {atividade.tituloAtividade || "Sem título"}
+                  {atividade.nota && (
+                    <AiOutlineCheckCircle
+                      className="check-icon"
+                      title="Nota atribuída"
+                    />
+                  )}
+                </h3>
+                <p>Aluno: {atividade.nomeUsuario || "Desconhecido"}</p>
+                {atividade.nota && <p>Nota atribuída: {atividade.nota}</p>}
               </div>
             ))
           ) : (
             <p>Nenhuma atividade devolvida no momento.</p>
           )}
         </section>
+
+        <footer className="footer">
+          <button className="btn-voltar" onClick={handleVoltar}>
+            Voltar
+          </button>
+        </footer>
       </main>
     </div>
   );

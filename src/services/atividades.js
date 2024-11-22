@@ -15,7 +15,6 @@ const getAtividadesDevolvidas = async () => {
         "Content-Type": "application/json",
       },
     });
-    console.log("Resposta da API (Atividades Devolvidas):", response.data); // Log da resposta da API
     return response.data; // Retorna a lista de atividades devolvidas
   } catch (error) {
     console.error("Erro ao buscar atividades devolvidas:", error.response?.data || error.message);
@@ -39,10 +38,28 @@ const atribuirNota = async (idRespostaAtividade, notaData) => {
         },
       }
     );
-    console.log("Resposta da atribuição de nota:", response.data); // Log da resposta da atribuição
     return response.data; // Retorna a resposta da atribuição da nota
   } catch (error) {
     console.error("Erro ao atribuir nota:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// Função para buscar respostas de atividades respondidas
+const getAtividadesRespondidas = async (idAtividade) => {
+  const token = authService.getToken(); // Obtém o token de autenticação
+  if (!token) throw new Error("Token não encontrado.");
+
+  try {
+    const response = await axios.get(`${API_URL}/atividades/${idAtividade}/respostas`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data; // Retorna as respostas da atividade
+  } catch (error) {
+    console.error("Erro ao buscar respostas da atividade:", error.response?.data || error.message);
     throw error;
   }
 };
@@ -59,7 +76,6 @@ const cadastrarAtividade = async (dadosAtividade) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("Resposta da API (Cadastro de Atividade):", response.data);
     return response.data; // Retorna os dados da atividade cadastrada
   } catch (error) {
     console.error("Erro ao cadastrar atividade:", error.response?.data || error.message);
@@ -72,6 +88,7 @@ const atividadesService = {
   getAtividadesDevolvidas, // Recupera atividades devolvidas
   atribuirNota, // Atribui nota à atividade
   cadastrarAtividade, // Cadastra uma nova atividade
+  getAtividadesRespondidas, // Recupera respostas das atividades
 };
 
 export default atividadesService;

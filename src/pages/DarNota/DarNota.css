@@ -1,0 +1,38 @@
+.container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .response-card {
+    padding: 10px;
+    background-color: #f7f7f7;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+  }
+  
+  .nota-input {
+    margin-top: 10px;
+    padding: 8px;
+    width: 100px;
+  }
+  
+  .btn-atribuir-nota,
+  .btn-voltar {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: orange;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-atribuir-nota:hover,
+  .btn-voltar:hover {
+    background-color: darkorange;
+  }
+  
+  .mensagem {
+    color: green;
+    margin-top: 10px;
+  }
+  

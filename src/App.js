@@ -8,6 +8,7 @@ import DashProf from "./pages/DashProf/ProfessorPage.js";
 import ResponderAtividade from './pages/Responder/ResponderAtividade';  
 import CadastroAtividades from "./pages/CadastroAtividades/CadastroAtividades.js";
 import CorrecaoAtividades from "./pages/CorrecaoAtividades/CorrecaoAtividades.js";
+import DarNota from "./pages/DarNota/DarNota.js";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/responder-atividade" element={<ResponderAtividade />} />
         <Route path="/cadastro" element={<CadastroAtividades />} />
         <Route path="/correcao" element={<CorrecaoAtividades />} />
+        <Route path="/dar-nota" element={<DarNota />} />
       </Routes>
     </Router>
   );
