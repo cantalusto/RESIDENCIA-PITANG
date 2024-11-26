@@ -18,7 +18,7 @@ const Dashboard = () => {
 
       <div className="dashboard">
         <header>
-          <h1>Bem vindo Professor</h1>
+          <h1>Bem-vindo, Professor!</h1>
         </header>
         <h3>Escolha uma Ação</h3>
         <div className="buttons-container">

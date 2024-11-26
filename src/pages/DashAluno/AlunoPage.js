@@ -2,18 +2,26 @@ import React, { useEffect, useState } from "react";
 import "./AlunoPage.css";
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
-import atividadesService from "../../services/atividades"; // Importação do serviço
+import atividadesService from "../../services/atividades";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [atividades, setAtividades] = useState([]);
-  const [atividadesDevolvidas, setAtividadesDevolvidas] = useState([]);
-  console.log("Atividade recebida:", atividadesDevolvidas); // Log das atividades devolvidas
+  const [atividades, setAtividades] = useState([]); // Lista completa de atividades
+  const [atividadesPendentes, setAtividadesPendentes] = useState([]); // Lista filtrada de atividades pendentes
+  const [atividadesDevolvidas, setAtividadesDevolvidas] = useState([]); // Lista de atividades devolvidas
 
+  // Função para comparar listas e atualizar atividades pendentes
+  const atualizarAtividadesPendentes = (atividades, atividadesDevolvidas) => {
+    const idsDevolvidas = new Set(atividadesDevolvidas.map((a) => a.id)); // Cria um conjunto de IDs devolvidos
+    const pendentes = atividades.filter((atividade) => !idsDevolvidas.has(atividade.id)); // Filtra as atividades não devolvidas
+    setAtividadesPendentes(pendentes); // Atualiza o estado com as pendentes
+  };
+
+  // Carregar atividades pendentes
   useEffect(() => {
     const fetchAtividades = async () => {
       try {
-        const token = authService.getToken(); // Obtém o token de autenticação
+        const token = authService.getToken();
         if (!token) {
           console.error("Token não encontrado. Faça login novamente.");
           return;
@@ -21,13 +29,12 @@ const Home = () => {
 
         const response = await fetch("https://ferasapi.serveo.net/atividades", {
           headers: {
-            Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
         const data = await response.json();
-        console.log("Atividades carregadas:", data); // Log para depuração
-        setAtividades(data); // Atualiza o estado com as atividades
+        setAtividades(data); // Atualiza a lista completa de atividades
       } catch (error) {
         console.error("Erro ao carregar atividades:", error);
       }
@@ -36,62 +43,68 @@ const Home = () => {
     fetchAtividades();
   }, []);
 
-  const handleAtividadeClick = (atividade) => {
-    navigate("/responder-atividade", { state: { atividade } });
-  };
-
+  // Carregar atividades devolvidas
   useEffect(() => {
     const fetchAtividadesDevolvidas = async () => {
       try {
         const data = await atividadesService.getAtividadesDevolvidas();
-        setAtividadesDevolvidas(data); // Atualiza o estado com as atividades devolvidas
-        console.log("Atividades devolvidas carregadas:", data); // Log para depuração
+        setAtividadesDevolvidas(data); // Atualiza a lista de atividades devolvidas
       } catch (error) {
         console.error("Erro ao carregar atividades devolvidas:", error);
       }
     };
 
-    fetchAtividadesDevolvidas(); // Chama a função para buscar as atividades devolvidas
-  }, []); // Executa apenas uma vez quando o componente é montado
+    fetchAtividadesDevolvidas();
+  }, []);
+
+  // Atualizar atividades pendentes sempre que listas mudarem
+  useEffect(() => {
+    atualizarAtividadesPendentes(atividades, atividadesDevolvidas);
+  }, [atividades, atividadesDevolvidas]);
+
+  // Função chamada ao clicar em uma atividade pendente
+  const handleAtividadeClick = (atividade) => {
+    navigate("/responder-atividade", { state: { atividade } });
+  };
 
   return (
     <div className="container">
       <main className="content">
         <header>
-          <h1>Bem-vindo Aluno</h1>
+          <h1>Bem-vindo, Aluno!</h1>
         </header>
 
-        {/* Seção de Atividades Disponíveis */}
+        {/* Seção de Atividades Disponíveis (Pendentes) */}
         <section className="activities-section">
-          <h2>Atividades Disponíveis</h2>
-          {atividades.length > 0 ? (
-            atividades.map((atividade, index) => (
+          <h2>Atividades Pendentes</h2>
+          {atividadesPendentes.length > 0 ? (
+            atividadesPendentes.map((atividade, index) => (
               <div
                 key={index}
                 className="activity-card"
                 onClick={() => handleAtividadeClick(atividade)}
               >
                 <h3>{atividade.titulo}</h3>
-                <p>{atividade.questoes?.pergunta || "Pergunta não disponível"}</p>
+                <p>{atividade.questoes?.pergunta || ""}</p>
               </div>
             ))
           ) : (
-            <p>Nenhuma atividade disponível no momento.</p>
+            <p>Nenhuma atividade pendente no momento.</p>
           )}
         </section>
 
-        {/* Seção de Atividades Devolvidas (para visualização no console) */}
+        {/* Seção de Atividades Devolvidas (Respondidas) */}
         <section className="activities-devolvidas-section">
-          <h2>Atividades Devolvidas</h2>
+          <h2>Atividades Respondidas</h2>
           {atividadesDevolvidas.length > 0 ? (
             atividadesDevolvidas.map((atividadeDevolvida, index) => (
               <div key={index} className="activity-card">
-                <h3>{atividadeDevolvida.titulo}</h3>
-                <p>{atividadeDevolvida.questoes?.pergunta || "Pergunta não disponível"}</p>
+                <h3>{atividadeDevolvida.tituloAtividade}</h3>
+                <p>Nota: {atividadeDevolvida.nota || "Ainda sem nota"}</p>
               </div>
             ))
           ) : (
-            <p>Nenhuma atividade devolvida.</p>
+            <p>Nenhuma atividade respondida ainda.</p>
           )}
         </section>
       </main>
