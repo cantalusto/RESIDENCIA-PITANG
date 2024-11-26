@@ -38,6 +38,7 @@ cd RESIDENCIA-PITANG
 Instale todas as dependências do projeto usando o npm:
 ```
 npm install
+npm install react-icons
 ```
 ### 5. Executar o projeto
 Agora, inicie o servidor de desenvolvimento:
