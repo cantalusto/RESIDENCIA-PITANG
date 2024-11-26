@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import atividadesService from "../../services/atividades";
+import './DarNota.css';
 
 const DarNota = () => {
   const location = useLocation(); // Recebe dados da navegação
   const navigate = useNavigate();
   const { atividade } = location.state || {}; // Recupera os dados da atividade selecionada
-  const [respostas, setRespostas] = useState([]);
+  console.log("Atividade recebida:", atividade);
+
   const [nota, setNota] = useState("");
   const [mensagem, setMensagem] = useState("");
 
-  useEffect(() => {
-    const fetchRespostas = async () => {
-      try {
-        const data = await atividadesService.getAtividadesRespondidas(atividade.id);
-        setRespostas(data);
-      } catch (error) {
-        console.error("Erro ao carregar respostas da atividade:", error);
-      }
-    };
-
-    if (atividade) {
-      fetchRespostas();
+  const handleNotaChange = (e) => {
+    const value = e.target.value;
+    if (value === "" || (value >= 0 && value <= 10)) {
+      setNota(value);
+    } else if (value > 10) {
+      setNota(10); // Ajusta automaticamente para 10 caso exceda o limite
     }
-  }, [atividade]);
+  };
 
   const handleAtribuirNota = async () => {
     try {
@@ -50,10 +46,13 @@ const DarNota = () => {
 
           <section>
             <h4>Respostas do Aluno:</h4>
-            {respostas.length > 0 ? (
-              respostas.map((resposta, index) => (
+            {atividade.respostas && atividade.respostas.length > 0 ? (
+              atividade.respostas.map((resposta, index) => (
                 <div key={index} className="response-card">
-                  <p>{resposta.conteudoResposta || "Resposta não disponível."}</p>
+                  {/* Índice adicionado antes da resposta */}
+                  <p>
+                    {index + 1}) {resposta.resposta || "Resposta não disponível."}
+                  </p>
                 </div>
               ))
             ) : (
@@ -66,9 +65,11 @@ const DarNota = () => {
             <input
               type="number"
               value={nota}
-              onChange={(e) => setNota(e.target.value)}
+              onChange={handleNotaChange}
               placeholder="Insira a nota"
               className="nota-input"
+              min="0"
+              max="10" // HTML5 Constraint para reforçar o limite no navegador
             />
             <button onClick={handleAtribuirNota} className="btn-atribuir-nota">
               Salvar Nota
@@ -80,7 +81,7 @@ const DarNota = () => {
         <p>Nenhuma atividade selecionada. Volte para a página anterior.</p>
       )}
 
-      <button onClick={() => navigate("/professor")} className="btn-voltar">
+      <button onClick={() => navigate("/correcao")} className="btn-voltar">
         Voltar
       </button>
     </div>
