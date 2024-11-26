@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./AlunoPage.css";
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
+import atividadesService from "../../services/atividades"; // Importação do serviço
 
 const Home = () => {
   const navigate = useNavigate();
-  const [atividadesPendentes, setAtividadesPendentes] = useState([]);
-  const [atividadesRespondidas, setAtividadesRespondidas] = useState([]);
+  const [atividades, setAtividades] = useState([]);
+  const [atividadesDevolvidas, setAtividadesDevolvidas] = useState([]);
+  console.log("Atividade recebida:", atividadesDevolvidas); // Log das atividades devolvidas
 
   useEffect(() => {
     const fetchAtividades = async () => {
@@ -23,16 +25,9 @@ const Home = () => {
             "Content-Type": "application/json",
           },
         });
-
         const data = await response.json();
-        console.log("Atividades carregadas:", data);
-
-        // Dividindo as atividades entre pendentes e respondidas
-        const pendentes = data.filter((atividade) => !atividade.respondida);
-        const respondidas = data.filter((atividade) => atividade.respondida);
-
-        setAtividadesPendentes(pendentes);
-        setAtividadesRespondidas(respondidas);
+        console.log("Atividades carregadas:", data); // Log para depuração
+        setAtividades(data); // Atualiza o estado com as atividades
       } catch (error) {
         console.error("Erro ao carregar atividades:", error);
       }
@@ -45,6 +40,20 @@ const Home = () => {
     navigate("/responder-atividade", { state: { atividade } });
   };
 
+  useEffect(() => {
+    const fetchAtividadesDevolvidas = async () => {
+      try {
+        const data = await atividadesService.getAtividadesDevolvidas();
+        setAtividadesDevolvidas(data); // Atualiza o estado com as atividades devolvidas
+        console.log("Atividades devolvidas carregadas:", data); // Log para depuração
+      } catch (error) {
+        console.error("Erro ao carregar atividades devolvidas:", error);
+      }
+    };
+
+    fetchAtividadesDevolvidas(); // Chama a função para buscar as atividades devolvidas
+  }, []); // Executa apenas uma vez quando o componente é montado
+
   return (
     <div className="container">
       <main className="content">
@@ -52,37 +61,37 @@ const Home = () => {
           <h1>Bem-vindo Aluno</h1>
         </header>
 
-        {/* Seção de Atividades Pendentes */}
+        {/* Seção de Atividades Disponíveis */}
         <section className="activities-section">
-          <h2>Atividades Pendentes</h2>
-          {atividadesPendentes.length > 0 ? (
-            atividadesPendentes.map((atividade, index) => (
+          <h2>Atividades Disponíveis</h2>
+          {atividades.length > 0 ? (
+            atividades.map((atividade, index) => (
               <div
                 key={index}
                 className="activity-card"
                 onClick={() => handleAtividadeClick(atividade)}
               >
                 <h3>{atividade.titulo}</h3>
-                <p>{atividade.questoes.pergunta}</p>
+                <p>{atividade.questoes?.pergunta || "Pergunta não disponível"}</p>
               </div>
             ))
           ) : (
-            <p>Não há atividades pendentes no momento.</p>
+            <p>Nenhuma atividade disponível no momento.</p>
           )}
         </section>
 
-        {/* Seção de Atividades Respondidas */}
-        <section className="activities-section">
-          <h2>Atividades Respondidas</h2>
-          {atividadesRespondidas.length > 0 ? (
-            atividadesRespondidas.map((atividade, index) => (
-              <div key={index} className="activity-card responded">
-                <h3>{atividade.titulo}</h3>
-                <p>Nota: {atividade.nota !== null ? atividade.nota : "Não avaliada ainda"}</p>
+        {/* Seção de Atividades Devolvidas (para visualização no console) */}
+        <section className="activities-devolvidas-section">
+          <h2>Atividades Devolvidas</h2>
+          {atividadesDevolvidas.length > 0 ? (
+            atividadesDevolvidas.map((atividadeDevolvida, index) => (
+              <div key={index} className="activity-card">
+                <h3>{atividadeDevolvida.titulo}</h3>
+                <p>{atividadeDevolvida.questoes?.pergunta || "Pergunta não disponível"}</p>
               </div>
             ))
           ) : (
-            <p>Você ainda não respondeu nenhuma atividade.</p>
+            <p>Nenhuma atividade devolvida.</p>
           )}
         </section>
       </main>
